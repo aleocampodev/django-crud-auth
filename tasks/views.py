@@ -9,22 +9,22 @@ def home(request):
 
 def signup(request):
     if request.method == 'GET':
+        form = UserCreationForm()
+        return render(request,'./signup.html', {'form':form})
         #print('Enviando formulario')
-        return render(request, 'singup.html',{
-            'form': UserCreationForm
-        })
+    #     
     else:
-        # print(request.POST)
-        # print('obteniendo datos')
-        if request.POST['password1'] == request.POST['password1']:
-            #register user
+    #     # print(request.POST)
+    #     # print('obteniendo datos')
+        if request.POST['password1'] == request.POST['password2']:
+    #         #register user
             try:
                 user= User.objects.create_user(username=request.POST['username'],
                 password=request.POST['password1'])                             
                 user.save()
                 return HttpResponse('User created successfully')
             except:
-                return HttpResponse('username already exists')
+               return HttpResponse('username already exists')
         return HttpResponse('Password do not match')
     
     # return render(request, 'signup.html',{
